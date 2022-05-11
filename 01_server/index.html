@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    234234234234
+  <script type="text/javascript">
+    // let xhr = new XMLHttpRequest()
+    // xhr.open('GET', 'http://localhost:8001')
+    // xhr.send()
+    // xhr.onreadystatechange = function(){
+    //   if(xhr.readyState === 4 && xhr.status === 200) {
+    //     console.info('ok', xhr.response)
+    //   } else {
+    //     console.info('error', xhr)
+    //   }
+    // }
+
+    fetch('http://localhost:8001', {
+      method: 'DELETE',
+      headers: {
+        'X-Test-Cors': '123'
+      }
+    })
+  </script>
+  <!-- <script src="http://127.0.0.1:8001"></script> -->
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -76,3 +76,93 @@
   - HTTP CODE
     - 定义服务器对请求的处理结果
     - 各个区间的CODE有各自的语义
+
+### 查看网站http信息
+- curl -v www.jd.com
+  ```js
+    *   Trying 2409:8c0c:310:2901:8000::3:80...
+    * Connected to www.jd.com (2409:8c0c:310:2901:8000::3) port 80 (#0)
+    > GET / HTTP/1.1
+    > Host: www.jd.com
+    > User-Agent: curl/7.79.1
+    > Accept: */*
+    > 
+    * Mark bundle as not supporting multiuse
+    < HTTP/1.1 302 Moved Temporarily
+    < Server: nginx
+    < Date: Wed, 11 May 2022 02:33:13 GMT
+    < Content-Type: text/html
+    < Content-Length: 138
+    < Connection: keep-alive
+    < Location: https://www.jd.com/
+    < Timing-Allow-Origin: *
+    < X-Trace: 302-1652236393652-0-0-0-0-0
+    < Strict-Transport-Security: max-age=3600
+    < 
+    <html>
+    <head><title>302 Found</title></head>
+    <body>
+    <center><h1>302 Found</h1></center>
+    <hr><center>nginx</center>
+    </body>
+    </html>
+  ```
+
+
+### ajax请求
+  ```js
+  const xhr = new XMLHttpRequest()
+  xhr.open('GET', 'http://www.jd.com/api')
+  xhr.send()
+  xhr.onreadstatechange() {
+    if(xhr.readState === 4 && xhr.status === 200) {
+      console.info(xhr.response)
+    }
+  }
+  ```
+### 解决跨域CORS
+  - 响应头部设置参数 Access-Control-Allow-Origin
+    1. 设置为 * 通配符，匹配所有网站
+    2. 也可以专门设置访问域名
+  - 可以引入script标签中，浏览器加载JS文件不受同源策略的限制
+
+  - 跨域预请求,非允许要预请求OPTIONS
+    - 允许方法
+      - GET、POST、HEAD
+    - 允许Content-Type 
+      - text/plain
+      - mulipart/form-data
+      - application/x-www-from-urlencoded
+    - 请求头限制
+      - Content-Type
+  - 跨域预请求配置
+    ```js
+      'Access-Control-Allow-Origin': '*', // 允许跨域访问ip
+      'Access-Control-Allow-Headers': 'X-Test-Cors', // 设置允许预请求头
+      'Access-Control-Allow-Methods': 'DELETE', // 设置允许预请求方式
+      'Access-Control-Max-Age': 10000 // 设置多久时间内不用预请求
+    ```
+
+### 缓存 Cache-Control
+  #### 可缓存性
+  - public http经过的任何地方都可缓存
+  - private 只有客户端有缓存
+  - no-cache 强制客户端向服务器发起请求，（禁用强缓存，可用协商缓存）
+  #### 到期
+  - max-age=<seconds>    多长时间后过期
+  - s-maxage=<seconds>   代理服务器中生效
+  - max-stale=<seconds>  过期了仍可使用缓存，浏览器端没用
+  #### 重新验证
+  - must-revalidate      过期重新请求
+  - proxy-revalidate     过期请求，服务端
+  #### 其他
+  - no-store 本地和代理服务器不能有缓存，必须向服务端请求新数据
+  - no-transform  代理服务器不允许改动内容
+### 资源验证
+  - Last-Modified
+    - 上次修改时间
+    - 配合If-Modified-Since或If-Unmodified-Since使用
+  - Etag
+    - 数据签名，对比资源的签名判断是否变化
+    - 配合If-match或If-Non-match使用
+
