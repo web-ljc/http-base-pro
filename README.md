@@ -166,3 +166,47 @@
     - 数据签名，对比资源的签名判断是否变化
     - 配合If-match或If-Non-match使用
 
+### Cookie
+  - 通过Set-Cookie设置
+  - 下次请求会自动带上
+  - 键值对，可以设置多个
+  #### Cookie属性
+  - max-age和expires设置过期时间
+  - HttpOnly无法通过document.cookie访问
+  - Secure只在https的时候发送
+  - 可以设置二级域名访问
+  - 设置SameSite
+    - strict完全禁用第三方cookie，但统一主体运营要重复登录
+    - none完全不做限制，不认来源，只看目的
+    - lax 某些情况限制三方cookie，a链接、get方式某些情况放行，post、ajax不放行
+  
+  cookie不等于session。session可以方在cookie里，不一定由cookie实现
+
+### 长链接
+  - http1.1的TCP请求是串行的，前边请求完才会请求后边
+
+### 数据协商
+  #### 请求
+  - Accept           // 数据类型
+  - Accept-Encoding  // 数据压缩
+  - Accept-Lanauage  // 语言
+  - User-Agent       // Pc/移动
+  
+  #### 返回
+  - Content
+  - Content-Type      // 文件类型
+  - Content-Encoding  // 数据压缩
+  - Content-Language
+
+### redirect
+  - 301永久重定向，第二次访问之后，会直接访问跳转路径，从本地读取，会不受控制
+  - 302临时重定向，跳转每次访问都会请求下跟路径
+
+### 内容安全策略CSP
+  - 限制资源获取
+  - 报告资源获取越权
+
+  #### 限制方式
+  - default-src 限制全局
+  - 根据资源类型进行限制
+
